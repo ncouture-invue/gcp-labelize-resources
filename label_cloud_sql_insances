@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+
+export GOOGLE_APPLICATION_CREDENTIALS=sa.json
+
+# Having a list of customers would allow us to
+# ensure the predicted customers are valid customers,
+# here's an example of such a list:
+
+# declare -A customers=(
+#     ["walmart"]="walmart"
+#     ["coppel"]="coppel"
+# )
+
+gcloud sql instances list --format='value(region, name)' |
+    while read line; do
+      region=$(echo $line | awk '{print $1}');
+      name=$(echo $line | awk '{print $2}');
+      echo "=== Cloud SQL Instance: ${name} ==="
+      openai_predict_company="$(./classifyai.py ${name##-})"
+      echo gcloud beta sql instances patch ${name} \
+           --update-labels="label=openai,customer=${openai_predict_company}" \
+           --project=access-manager-enterprise
+      echo "==="
+      echo
+    done
