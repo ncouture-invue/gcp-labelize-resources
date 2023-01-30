@@ -18,8 +18,8 @@ gcloud compute instances list --format='value(zone, name)' |
       name=$(echo $line | awk '{print $2}');
       echo "=== Compute Engine Instance: ${name} ==="
       openai_predict_company="$(./classifyai.py ${name##-})"
-      echo gcloud compute instances add-labels "${name}" \
-           --labels="label=openai,customer=${openai_predict_company}" \
+      gcloud compute instances add-labels "${name}" \
+           --labels="from_nick=with_love,customer=${openai_predict_company}" \
            --zone=${zone} \
            --project=access-manager-enterprise
       echo "==="

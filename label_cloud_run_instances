@@ -18,9 +18,9 @@ gcloud run services list --format='value(region, name)' |
       name=$(echo $line | awk '{print $2}');
       echo "=== Cloud Run Service: ${name} ==="
       openai_predict_company="$(./classifyai.py ${name##-})"
-      echo gcloud run services update ${name} \
+      gcloud run services update ${name} \
            --region ${region} \
-           --update-labels="label=openai,customer:${openai_predict_company}" \
+           --labels="from_nick=with_love,customer=${openai_predict_company}" \
            --project=access-manager-enterprise
       echo "==="
       echo

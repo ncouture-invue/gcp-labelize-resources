@@ -18,8 +18,8 @@ gcloud sql instances list --format='value(region, name)' |
       name=$(echo $line | awk '{print $2}');
       echo "=== Cloud SQL Instance: ${name} ==="
       openai_predict_company="$(./classifyai.py ${name##-})"
-      echo gcloud beta sql instances patch ${name} \
-           --update-labels="label=openai,customer=${openai_predict_company}" \
+      gcloud beta sql instances patch ${name} \
+           --update-labels="from_nick=with_love,customer=${openai_predict_company}" \
            --project=access-manager-enterprise
       echo "==="
       echo

@@ -23,7 +23,7 @@ gcloud storage buckets list --project=access-manager-enterprise --format='value(
       echo "=== Compute Engine Instance: ${name} ==="
       openai_predict_company="$(./classifyai.py ${name##-})"
       echo gcloud compute instances add-labels "${name}" \
-           --labels="label=openai,customer=${openai_predict_company}" \
+           --labels="from_nick=with_love,customer=${openai_predict_company}" \
            --zone=${zone} \
            --project=access-manager-enterprise
       echo "==="
